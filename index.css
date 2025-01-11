@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playwrite+AU+SA:wght@100..400&display=swap');
+
+*{
+    margin: 0;
+    background-color: #17153b00;
+    padding: 0;
+}
+
+.container{
+    background-color: #17153b00;
+}
+
+.head{
+    background-color: #2E236C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    color: rgb(80, 165, 80);
+    flex-direction: column;
+    text-decoration: none;
+    list-style-type: none; 
+    font-size: xx-large;
+
+    font-family: "Jersey 15", serif;
+    font-weight: 10000;
+    font-style: normal;
+}
+.head ul li a{
+    text-decoration: underline wavy ;
+    list-style-type: none; 
+    color: #C8ACD6;
+    padding: 10px;
+}
+.head ul{
+    list-style-type: none; 
+}
+.head h1{
+    text-decoration: underline dotted ;
+}
+.mid{
+    margin: 20px;
+    padding: 10px;
+    background-color: #433D8B;
+    border-radius: 15px;
+    filter: drop-shadow(1px 2px 3px black);
+    color: white;
+
+    font-family: "Playwrite AU SA", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+}
