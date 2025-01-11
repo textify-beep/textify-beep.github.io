@@ -17,6 +17,7 @@ ul li{
     color: #00ADB5;
     border-radius: 15px;
     filter: drop-shadow(2px 4px 5px black);
+    height: fit-content;
 
     font-family: "Poppins", serif;
     font-weight: 400;
@@ -50,7 +51,8 @@ ul li{
     padding: 25px;
     color: #EEEEEE;
     text-shadow: 1px 2px 2px black;
-
+    height: fit-content;
+    
     font-family: "Poppins", serif;
     font-weight: 400;
     font-style: normal;
