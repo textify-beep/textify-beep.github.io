@@ -238,79 +238,80 @@
                             x.addEventListener("click", function(event){
                                 var profile = document.getElementById("user-profile");
                                 if(profile.style.display == "none"){
+                                        function updMsgs(){
+                                            profile.style.display = "flex";
+                                            profile.style.height = "70vh";
+                                            profile.style.width = "70vh";
+                                            profile.style.position = "absolute";
+                                            profile.style.filter = "drop-shadow(2px 2px 7px black)";
+                                            profile.style.borderRadius = "15px";
 
-                                        profile.style.display = "flex";
-                                        profile.style.height = "70vh";
-                                        profile.style.width = "70vh";
-                                        profile.style.position = "absolute";
-                                        profile.style.filter = "drop-shadow(2px 2px 7px black)";
-                                        profile.style.borderRadius = "15px";
+                                            const closeBtn = document.getElementById("close");
 
-                                        const closeBtn = document.getElementById("close");
+                                            closeBtn.addEventListener("click", function(event){
+                                                profile.style.display = "none";
+                                                res = [];
+                                                clearInterval(interval);
+                                            })
 
-                                        closeBtn.addEventListener("click", function(event){
-                                            profile.style.display = "none";
-                                            res = [];
-                                            run = false;
-                                        })
+                                            function addMsgs(){
 
-                                        function addMsgs(){
+                                                get(child(dbRef, 'users/'+auth.currentUser.uid)).then((snapshot)=>{
+                                                        if(snapshot.exists()){
 
-                                            get(child(dbRef, 'users/'+auth.currentUser.uid)).then((snapshot)=>{
+                                                            get(child(dbRef ,'prvMsgs/'+snapshot.val().username+"/"+res[i].username)).then((snapshot)=>{
+                                                                if(snapshot.exists()){
+                                                                    const res = Object.values(snapshot.val());
+                                                                    let count= Object.keys(res).length;
+
+                                                                    console.log(res[0].messege);
+                                                                    console.log(res[0].username);
+
+                                                                    const nsgsBox = document.querySelector(".privMsgs");
+                                                                    nsgsBox.innerHTML = "";
+
+                                                                    for (let i = 0; i < count; i++){
+                                                                        nsgsBox.appendChild(createPostLi(res[i].username));
+                                                                        nsgsBox.appendChild(createPostLabel(res[i].messege, res[i].username));
+
+                                                                    }
+                                                                }
+
+                                                            
+                                                            })
+                                                        }
+                                                    });
+                                                //res = [];
+                                                }
+                                            addMsgs();                                        
+
+                                            document.getElementById("usrnme").textContent = res[i].username;
+
+                                            const privBtn = document.getElementById("sendMess");
+                                            privBtn.addEventListener("click", function(event){
+                                                var privMess = document.getElementById("mess").value;
+
+                                                const d = new Date();
+
+                                                get(child(dbRef, 'users/'+auth.currentUser.uid)).then((snapshot)=>{
                                                     if(snapshot.exists()){
 
-                                                        get(child(dbRef ,'prvMsgs/'+snapshot.val().username+"/"+res[i].username)).then((snapshot)=>{
-                                                            if(snapshot.exists()){
-                                                                const res = Object.values(snapshot.val());
-                                                                let count= Object.keys(res).length;
-
-                                                                console.log(res[0].messege);
-                                                                console.log(res[0].username);
-
-                                                                const nsgsBox = document.querySelector(".privMsgs");
-                                                                nsgsBox.innerHTML = "";
-
-                                                                for (let i = 0; i < count; i++){
-                                                                    nsgsBox.appendChild(createPostLi(res[i].username));
-                                                                    nsgsBox.appendChild(createPostLabel(res[i].messege, res[i].username));
-
-                                                                }
-                                                            }
-
-                                                          
+                                                        set(ref(database, '/prvMsgs/'+snapshot.val().username+"/"+res[i].username+"/"+d.getTime()),{
+                                                        messege: privMess,
+                                                        username: snapshot.val().username
+                                                        })
+                                                        set(ref(database, '/prvMsgs/'+"/"+res[i].username+"/"+snapshot.val().username+"/"+d.getTime()),{
+                                                        messege: privMess,
+                                                        username: snapshot.val().username
                                                         })
                                                     }
                                                 });
-                                            //res = [];
-                                            }
-                                        addMsgs();                                        
 
-                                        document.getElementById("usrnme").textContent = res[i].username;
+                                                                                    
+                                            })
+                                        }
 
-                                        const privBtn = document.getElementById("sendMess");
-                                        privBtn.addEventListener("click", function(event){
-                                            var privMess = document.getElementById("mess").value;
-
-                                            const d = new Date();
-
-                                            get(child(dbRef, 'users/'+auth.currentUser.uid)).then((snapshot)=>{
-                                                if(snapshot.exists()){
-
-                                                    set(ref(database, '/prvMsgs/'+snapshot.val().username+"/"+res[i].username+"/"+d.getTime()),{
-                                                    messege: privMess,
-                                                    username: snapshot.val().username
-                                                    })
-                                                    set(ref(database, '/prvMsgs/'+"/"+res[i].username+"/"+snapshot.val().username+"/"+d.getTime()),{
-                                                    messege: privMess,
-                                                    username: snapshot.val().username
-                                                    })
-                                                }
-                                            });
-                                                                                
-                                        })
-                                
-
-                                setInterval(addMsgs, 1000);
+                                var interval = setInterval(updMsgs, 1000);
 
                                 } else {
                                     profile.style.display = "none";
